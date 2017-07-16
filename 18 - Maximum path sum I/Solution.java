@@ -2,18 +2,16 @@ import java.util.*;
 
 public class Solution {
 	
-	static long maxSum = 0L;
+	static int maxSum = 0;
 	
 	public static void main(String[] args) {
 		
 		//Paste ONLY the triangle from the website into the input and press Enter to read it and execute
 		
 		Scanner in = new Scanner(System.in);
-		
 		int num = in.nextInt();
 		Node start = new Node(num, 1, null);
-		
-		int lines = 15;
+		int lines = 15; //how many rows
 		Node[] prevNums = new Node[]{start};
 		
 		for(int i = 2; i < lines + 1; i++){
@@ -42,27 +40,45 @@ public class Solution {
 		
 		System.out.println(maxSum);
 	}
-	
-	static void calculateMax(Node currNode, long sum, int lines){
+	static void calculateMax(Node currNode, int sum, int lines){
+		
+		sum += currNode.value;
+		
+		if(checkForReturn(lines, currNode.line, sum)){
+			return;
+		}
 		
 		if(currNode.connections.size() == 0){
-			if(sum + currNode.value > maxSum){
-				maxSum = sum + currNode.value;
+			if(sum > maxSum){
+				maxSum = sum;
 			}
 			return;
 		}
 		
-		sum += currNode.value;
 		
-		if((lines - currNode.line) * 99 + sum < maxSum){
-			return;
+		if(currNode.connections.get(0).value > currNode.connections.get(1).value){
+			calculateMax(currNode.connections.get(0), sum, lines);
+			if(checkForReturn(lines, currNode.line, sum)){
+				return;
+			}
+			calculateMax(currNode.connections.get(1), sum, lines);
 		}
-		
-		for(int i=0;i<currNode.connections.size();i++){
-			calculateMax(currNode.connections.get(i), sum, lines);
+		else{
+			calculateMax(currNode.connections.get(1), sum, lines);
+			if(checkForReturn(lines, currNode.line, sum)){
+				return;
+			}
+			calculateMax(currNode.connections.get(0), sum, lines);
 		}
 		return;
 		
+	}
+	
+	static boolean checkForReturn(int lines, int currLine, int sum){
+		if((lines - currLine) * 99 + sum <= maxSum){
+			return true;
+		}
+		return false;
 	}
 	
 }
