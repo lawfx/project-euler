@@ -6,7 +6,9 @@ public class Solution {
 	
 	public static void main(String[] args) {
 		
-		//Paste ONLY the triangle from the website into the input and press Enter to read it and execute
+		//Here I demonstrate an optimized brute force solution
+		//For the most optimal solution to this problem see solution for problem number 67
+		//Paste ONLY the triangle from the website into the input and press Enter to read it and execute 
 		
 		Scanner in = new Scanner(System.in);
 		int num = in.nextInt();
